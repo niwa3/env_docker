@@ -1,4 +1,4 @@
-let s:dein_dir = expand('~/.vim/dein')
+let s:dein_dir = expand('~/.cache/dein')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 if &compatible
@@ -51,6 +51,9 @@ call dein#add('jistr/vim-nerdtree-tabs')
 call dein#add('rhysd/vim-clang-format', {
             \ 'autoload' : {'filetypes' : ['c', 'cpp']}
             \ })
+call dein#add('benmills/vimux')
+call dein#add('fholgado/minibufexpl.vim')
+call dein#add('christoomey/vim-tmux-navigator')
 
 call dein#end()
 
@@ -58,6 +61,7 @@ if dein#check_install()
   call dein#install()
 endif
 
+filetype on
 filetype plugin indent on
 
 set nu
@@ -66,7 +70,6 @@ colorscheme molokai
 "colorscheme onedark
 syntax on
 set t_Co=256
-set t_ut=
 let g:molokai_original = 1
 let g:rehash256 = 1
 "let g:onedark_termcolors=16
@@ -149,8 +152,6 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=97
 autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=68
 let g:indent_guides_guide_size=1
 
-filetype on
-filetype plugin indent on
 
 let g:neocomplete#force_overwrite_completefunc = 1
 let g:acp_enableAtStartup = 0
@@ -190,7 +191,7 @@ autocmd vimenter * wincmd p
 autocmd FileType cpp set keywordprg=cppman
 command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
       \}
-autocmd FileType cpp nnoremap <silent><buffer> K <Esc>:Cppman <cword><CR>
+autocmd FileType cpp nnoremap <silent><Leader>K <ESC>:Cppman <cword><CR>
 
 let g:syntastic_cpp_compiler_options = '-std=c++11'
 let g:syntastic_python_checker = ['pyflakes', 'pep8']
@@ -199,3 +200,30 @@ nnoremap <C-s> :vsp<CR> :exe("tjump ".expand('<cword>'))<CR>
 nnoremap <C-i> :split<CR> :exe("tjump ".expand('<cword>'))<CR>
 
 let g:clang_format#code_style = 'google'
+autocmd FileType cpp vmap <Leader>cf :ClangFormat<CR>
+
+let mapleader = "\<Space>"
+" Run the current file with rspec
+map <Leader>vw :call VimuxRunCommand("clear; pwd " . bufname("%"))<CR>
+" Prompt for a command to run
+map <Leader>vp :VimuxPromptCommand<CR>
+" Run last command executed by VimuxRunCommand
+map <Leader>vl :VimuxRunLastCommand<CR>
+" Inspect runner pane
+map <Leader>vj :VimuxInspectRunner<CR>
+" Close vim tmux runner opened by VimuxRunCommand
+map <Leader>vq :VimuxCloseRunner<CR>
+" Interrupt any command running in the runner pane
+map <Leader>vc :VimuxInterruptRunner<CR>
+" Zoom the runner pane (use <bind-key> z to restore runner pane)
+map <Leader>vz :call VimuxZoomRunner()<CR>
+
+" comment out
+map <Leader>co <S-i># <ESC>
+vmap <Leader>co <S-i># <ESC>
+map <Leader>uc ^xx<ESC>
+
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
