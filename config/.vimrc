@@ -173,13 +173,14 @@ let g:marching#clang_command#options = {
       \ "cpp" : "-std=c++11"
       \}
 let g:marching_include_paths = [
-      \ "/usr/include/c++/4.8.5",
-      \ "/usr/include/cryptopp",
-      \ "/usr/include/pqxx",
-      \ "/usr/include/QtCore",
-      \ "/usr/include/QtXml",
-      \ "/usr/include/QtSql",
-      \ "/usr/include"
+      \ '/usr/include/c++/4.8.5',
+      \ '/usr/include/cryptopp',
+      \ '/usr/include/pqxx',
+      \ '/usr/include/Qt/*',
+      \ '/usr/include/QtCore/*',
+      \ '/usr/include/QtSql/*',
+      \ '/usr/include/QtXml/*',
+      \ '/usr/include'
       \]
 set updatetime=200
 
@@ -188,6 +189,7 @@ let g:nerdtree_tabs_open_on_console_startup = 1
 "let g:NERDTreeShowBookmarks=1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 autocmd vimenter * wincmd p
+
 autocmd FileType cpp set keywordprg=cppman
 command! -nargs=+ Cppman silent! call system("tmux split-window cppman " . expand(<q-args>))
       \}
@@ -222,6 +224,7 @@ map <Leader>vz :call VimuxZoomRunner()<CR>
 map <Leader>co <S-i># <ESC>
 vmap <Leader>co <S-i># <ESC>
 map <Leader>uc ^xx<ESC>
+
 
 let g:miniBufExplMapWindowNavVim = 1
 let g:miniBufExplMapWindowNavArrows = 1
